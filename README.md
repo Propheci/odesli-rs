@@ -16,7 +16,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-odesli-rs = { path = "../odesli-rs" }
+odesli-rs = { git = "https://github.com/Propheci/odesli-rs" }
 tokio = { version = "1.33.0", features = ["full"] }
 ```
 
