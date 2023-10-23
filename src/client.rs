@@ -9,6 +9,8 @@ struct InnerClient {
     http_client: reqwest::Client,
 }
 
+/// Helper to build a client for Odesli. You can modify things like the `api_key`,
+/// `api_version` and the inner `http_client` using the builder.
 pub struct ClientBuilder {
     api_key: Option<String>,
     api_version: String,
@@ -16,21 +18,26 @@ pub struct ClientBuilder {
 }
 
 impl ClientBuilder {
+    /// Modify the Odesli API key being used in the API calls.
     pub fn with_api_key(mut self, key: String) -> Self {
         self.api_key = Some(key);
         self
     }
 
+    /// Modify the API version being used. Currently, the only version available
+    /// is `"v1-alpha.1"`.
     pub fn with_api_version(mut self, version: String) -> Self {
         self.api_version = version;
         self
     }
 
+    /// Modify the `reqwest::Client` being used for making the calls.
     pub fn with_http_client(mut self, client: reqwest::Client) -> Self {
         self.http_client = client;
         self
     }
 
+    /// Build and return the `OdesliClient` with the configuration set.
     pub fn build(self) -> OdesliClient {
         OdesliClient {
             inner: Arc::new(Mutex::new(InnerClient {
@@ -97,10 +104,18 @@ impl OdesliClient {
         }
     }
 
+    /// Get a song/album by using its platform specific URL.
+    ///
+    /// `url`: The URL of the song/album to get
     pub async fn get_by_url(&self, url: &str) -> Result<LinksAPIResult, String> {
         self.get(vec![("url", url)]).await
     }
 
+    /// Get a song/album by using its platform specific ID.
+    ///
+    /// `id`: The ID of the entity in the platform.
+    /// `platform`: The platform.
+    /// `entity_type`: Song/Album.
     pub async fn get_by_id(
         &self,
         id: &str,

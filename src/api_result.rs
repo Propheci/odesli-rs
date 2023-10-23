@@ -5,7 +5,7 @@ use crate::{EntityType, SupportedPlatform};
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Deserialize)]
-pub struct LinkByPlatform {
+pub struct Link {
     /// The unique ID for this entity. Use it to look up data about this entity
     /// at `entities_by_unique_id[entity_unique_id]`
     #[serde(rename = "entityUniqueId")]
@@ -27,7 +27,7 @@ pub struct LinkByPlatform {
 }
 
 #[derive(Clone, Debug, Deserialize)]
-pub struct EntityByUniqueID {
+pub struct Entity {
     /// This is the unique identifier on the streaming platform/API provider
     #[serde(rename = "id")]
     pub id: String,
@@ -60,6 +60,7 @@ pub struct EntityByUniqueID {
 }
 
 #[derive(Clone, Debug, Deserialize)]
+/// This is the response structure returned by Odesli for its `links` endpoint.
 pub struct LinksAPIResult {
     /// The unique ID for the input entity that was supplied in the request.
     /// The data for this entity, such as title, artistName, etc. will be found
@@ -83,11 +84,11 @@ pub struct LinksAPIResult {
     /// Each key is a platform, and each value is a struct that contains data
     /// for linking to the match.
     #[serde(rename = "linksByPlatform")]
-    pub links_by_platform: HashMap<SupportedPlatform, LinkByPlatform>,
+    pub links_by_platform: HashMap<SupportedPlatform, Link>,
 
     /// Each key is a unique identifier for a streaming entity, and each value
     /// is an object that contains data for that entity, such as `title`,
     /// `artist_name`, `thumbnail_url`, etc.
     #[serde(rename = "entitiesByUniqueId")]
-    pub entities_by_unique_id: HashMap<String, EntityByUniqueID>,
+    pub entities_by_unique_id: HashMap<String, Entity>,
 }
