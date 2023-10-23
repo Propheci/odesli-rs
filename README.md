@@ -1,5 +1,5 @@
 # odesli-rs
-[UNOFFICIAL] Rust library to communicate with Odesli API
+[UNOFFICIAL] Async Rust library to communicate with Odesli API
 
 - Supports getting by URLs and IDs
 
