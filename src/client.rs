@@ -1,6 +1,6 @@
 use std::sync::{Arc, Mutex};
 
-use crate::{EntityType, LinksAPIResult, SupportedPlatform, API_VERSION, BASE_URL, LINKS_ENDPOINT};
+use crate::{EntityType, LinksAPIResult, Platform, API_VERSION, BASE_URL, LINKS_ENDPOINT};
 
 #[derive(Clone)]
 struct InnerClient {
@@ -119,7 +119,7 @@ impl OdesliClient {
     pub async fn get_by_id(
         &self,
         id: &str,
-        platform: &SupportedPlatform,
+        platform: &Platform,
         entity_type: &EntityType,
     ) -> Result<LinksAPIResult, String> {
         self.get(vec![

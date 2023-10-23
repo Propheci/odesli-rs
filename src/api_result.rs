@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::{EntityType, SupportedPlatform};
+use crate::{APIProvider, EntityType, Platform};
 
 use serde::Deserialize;
 
@@ -50,13 +50,13 @@ pub struct Entity {
     /// The API provider that powered this match. Useful if you'd like to use
     /// this entity's data to query the API directly
     #[serde(rename = "apiProvider")]
-    pub api_provider: SupportedPlatform,
+    pub api_provider: APIProvider,
 
     /// An array of platforms that are "powered" by this entity. E.g. an entity
     /// from Apple Music will generally have a `platforms` array of
     /// `[AppleMusic, iTunes]` since both those platforms/links are derived
     /// from this single entity
-    pub platforms: Vec<SupportedPlatform>,
+    pub platforms: Vec<Platform>,
 }
 
 #[derive(Clone, Debug, Deserialize)]
@@ -84,7 +84,7 @@ pub struct LinksAPIResult {
     /// Each key is a platform, and each value is a struct that contains data
     /// for linking to the match.
     #[serde(rename = "linksByPlatform")]
-    pub links_by_platform: HashMap<SupportedPlatform, Link>,
+    pub links_by_platform: HashMap<Platform, Link>,
 
     /// Each key is a unique identifier for a streaming entity, and each value
     /// is an object that contains data for that entity, such as `title`,
