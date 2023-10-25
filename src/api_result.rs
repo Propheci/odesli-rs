@@ -54,8 +54,8 @@ pub struct Entity {
 
     /// An array of platforms that are "powered" by this entity. E.g. an entity
     /// from Apple Music will generally have a `platforms` array of
-    /// `[AppleMusic, iTunes]` since both those platforms/links are derived
-    /// from this single entity
+    /// [`Platform::AppleMusic`] and [`Platform::iTunes`] since both those
+    /// platforms/links are derived from this single entity
     pub platforms: Vec<Platform>,
 }
 

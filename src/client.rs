@@ -40,7 +40,7 @@ impl ClientBuilder {
         self
     }
 
-    /// Build and return the [`OdesliClient`] with the configuration set.
+    /// Build and return the [`crate::OdesliClient`] with the configuration set.
     pub fn build(self) -> OdesliClient {
         OdesliClient {
             inner: Arc::new(Mutex::new(InnerClient {
@@ -120,8 +120,8 @@ impl OdesliClient {
     /// # Arguments
     ///
     /// * `id`: The ID of the entity in the corresponding platform.
-    /// * `platform`: The platform identifier (using [`Platform`]).
-    /// * `entity_type`: The entity type of the ID ([`EntityType`]).
+    /// * `platform`: The platform identifier (using [`crate::Platform`]).
+    /// * `entity_type`: The entity type of the ID ([`crate::EntityType`]).
     pub async fn get_by_id(
         &self,
         id: &str,

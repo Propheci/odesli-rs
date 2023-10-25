@@ -3,13 +3,13 @@ use reqwest::StatusCode;
 /// Various error kinds that the library can return.
 #[derive(Debug)]
 pub enum OdesliError {
-    /// An unknown [`EntityType`] value was passed.
+    /// An unknown [`crate::EntityType`] value was passed.
     ///
     /// Accepted values are "song" and "album".
     UnknownEntityType(String),
-    /// An unknown [`Platform`] value was passed.
+    /// An unknown [`crate::Platform`] value was passed.
     UnknownPlatform(String),
-    /// An unknown [`APIProvider`] value was passed.
+    /// An unknown [`crate::APIProvider`] value was passed.
     UnknownAPIProvider(String),
     /// Failed to JSON parse the response from Odesli API.
     ParseError {
