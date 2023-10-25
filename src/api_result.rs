@@ -36,14 +36,19 @@ pub struct Entity {
     #[serde(rename = "type")]
     pub entity_type: EntityType,
 
+    /// The title of the entity.
     #[serde(rename = "title")]
     pub title: Option<String>,
+    /// The name of the artist of the entity.
     #[serde(rename = "artistName")]
     pub artist_name: Option<String>,
     #[serde(rename = "thumbnailUrl")]
+    /// The URL to the thumbnail for the entity.
     pub thumbnail_url: Option<String>,
+    /// Width of the thumbnail in `Self::thumbnail_url`.
     #[serde(rename = "thumbnailWidth")]
     pub thumbnail_width: Option<u64>,
+    /// Height of the thumbnail in `Self::thumbnail_url`.
     #[serde(rename = "thumbnailHeight")]
     pub thumbnail_height: Option<u64>,
 
