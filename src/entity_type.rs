@@ -1,5 +1,7 @@
 use std::str::FromStr;
 
+use crate::OdesliError;
+
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Deserialize)]
@@ -11,13 +13,13 @@ pub enum EntityType {
 }
 
 impl FromStr for EntityType {
-    type Err = String;
+    type Err = OdesliError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
             "album" => Ok(Self::Album),
             "song" => Ok(Self::Song),
-            _ => Err(format!("unknown EntityType: '{}'", s)),
+            _ => Err(Self::Err::UnknownEntityType(s.to_string())),
         }
     }
 }

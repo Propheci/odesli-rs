@@ -92,3 +92,18 @@ pub struct LinksAPIResult {
     #[serde(rename = "entitiesByUniqueId")]
     pub entities_by_unique_id: HashMap<String, Entity>,
 }
+
+impl LinksAPIResult {
+    pub fn get_platform_url(&self, platform: &Platform) -> Option<&Link> {
+        self.links_by_platform.get(platform)
+    }
+
+    pub fn get_platform_entity(&self, platform: &Platform) -> Option<&Entity> {
+        if let Some(platform_link) = self.get_platform_url(platform).as_ref() {
+            self.entities_by_unique_id
+                .get(&platform_link.entity_unique_id)
+        } else {
+            None
+        }
+    }
+}

@@ -1,5 +1,7 @@
 use std::str::FromStr;
 
+use crate::OdesliError;
+
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
@@ -49,7 +51,7 @@ pub enum Platform {
 }
 
 impl FromStr for Platform {
-    type Err = String;
+    type Err = OdesliError;
 
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         match value {
@@ -63,7 +65,6 @@ impl FromStr for Platform {
             "pandora" => Ok(Self::Pandora),
             "deezer" => Ok(Self::Deezer),
             "tidal" => Ok(Self::Tidal),
-            // "amazon" => Ok(Self::Amazon),
             "amazonStore" => Ok(Self::AmazonStore),
             "amazonMusic" => Ok(Self::AmazonMusic),
             "soundcloud" => Ok(Self::SoundCloud),
@@ -74,7 +75,7 @@ impl FromStr for Platform {
             "anghami" => Ok(Self::Anghami),
             "boomplay" => Ok(Self::Boomplay),
             "audiomack" => Ok(Self::Audiomack),
-            _ => Err(format!("unknown platform: {}", value)),
+            _ => Err(Self::Err::UnknownPlatform(value.to_string())),
         }
     }
 }
@@ -92,7 +93,6 @@ impl Platform {
             Self::Pandora => "pandora",
             Self::Deezer => "deezer",
             Self::Tidal => "tidal",
-            // Self::Amazon => "amazon",
             Self::AmazonStore => "amazonStore",
             Self::AmazonMusic => "amazonMusic",
             Self::SoundCloud => "soundcloud",
@@ -146,7 +146,7 @@ pub enum APIProvider {
 }
 
 impl FromStr for APIProvider {
-    type Err = String;
+    type Err = OdesliError;
 
     fn from_str(value: &str) -> Result<Self, Self::Err> {
         match value {
@@ -166,7 +166,7 @@ impl FromStr for APIProvider {
             "anghami" => Ok(Self::Anghami),
             "boomplay" => Ok(Self::Boomplay),
             "audiomack" => Ok(Self::Audiomack),
-            _ => Err(format!("unknown platform: {}", value)),
+            _ => Err(Self::Err::UnknownAPIProvider(value.to_string())),
         }
     }
 }
