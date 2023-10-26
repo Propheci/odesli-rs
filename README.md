@@ -26,26 +26,49 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-odesli-rs = { git = "https://github.com/Propheci/odesli-rs" }
+odesli-rs = "4.1.0"
+strum = "0.25.0"
 tokio = { version = "1.33.0", features = ["full"] }
 ```
 
 * In `src/main.rs`
 ```rust
+use odesli_rs::{APIProvider, ClientBuilder, EntityType, Platform};
+use strum::IntoEnumIterator;
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let client = odesli_rs::ClientBuilder::default().build();
+    println!("Supported Platforms:");
+    for platform in Platform::iter() {
+        println!(" - {:?}", platform)
+    }
+    println!("");
 
-    dbg!(client.get_by_url("https://music.youtube.com/watch?v=cnnOwLfAxn0&si=3MtMRBN3Zy4FFNxU"));
+    println!("Supported API Providers:");
+    for provider in APIProvider::iter() {
+        println!(" - {:?}", provider)
+    }
+    println!("");
+
+    let client = ClientBuilder::default().build();
+
     dbg!(
         client
-            .get_by_id(
-                "7CNUefGBVLn4cLoYv3ej8x",
-                &odesli_rs::SupportedPlatform::Spotify,
-                &odesli_rs::EntityType::Song
-            )
+            .get_by_url("https://music.youtube.com/watch?v=cnnOwLfAxn0&si=3MtMRBN3Zy4FFNxU")
             .await
     );
+
+    let result = client
+        .get_by_id(
+            "7CNUefGBVLn4cLoYv3ej8x",
+            &Platform::Spotify,
+            &EntityType::Song,
+        )
+        .await?;
+
+    dbg!(&result);
+    dbg!(result.get_platform_url(&Platform::YouTube));
+    dbg!(result.get_platform_entity(&Platform::YouTube));
 
     Ok(())
 }

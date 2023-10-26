@@ -2,51 +2,32 @@ use std::str::FromStr;
 
 use crate::OdesliError;
 
-use serde::Deserialize;
+use serde::{de, Deserialize, Deserializer};
+use strum::EnumIter;
 
-#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, EnumIter, Eq, Hash, PartialEq)]
 /// `Platforms` as defined in the documentation.
 pub enum Platform {
-    #[serde(rename = "spotify")]
     Spotify,
-    #[serde(rename = "itunes")]
     #[allow(non_camel_case_types)]
     iTunes,
-    #[serde(rename = "appleMusic")]
     AppleMusic,
-    #[serde(rename = "youtube")]
     YouTube,
-    #[serde(rename = "youtubeMusic")]
     YouTubeMusic,
-    #[serde(rename = "google")]
     Google,
-    #[serde(rename = "googleStore")]
     GoogleStore,
-    #[serde(rename = "pandora")]
     Pandora,
-    #[serde(rename = "deezer")]
     Deezer,
-    #[serde(rename = "tidal")]
     Tidal,
-    #[serde(rename = "amazonStore")]
     AmazonStore,
-    #[serde(rename = "amazonMusic")]
     AmazonMusic,
-    #[serde(rename = "soundcloud")]
     SoundCloud,
-    #[serde(rename = "napster")]
     Napster,
-    #[serde(rename = "yandex")]
     Yandex,
-    #[serde(rename = "spinrilla")]
     Spinrilla,
-    #[serde(rename = "audius")]
     Audius,
-    #[serde(rename = "anghami")]
     Anghami,
-    #[serde(rename = "boomplay")]
     Boomplay,
-    #[serde(rename = "audiomack")]
     Audiomack,
 }
 
@@ -80,6 +61,16 @@ impl FromStr for Platform {
     }
 }
 
+impl<'de> Deserialize<'de> for Platform {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Self::from_str(&s).map_err(|err| de::Error::custom(err.to_string()))
+    }
+}
+
 impl Platform {
     pub fn as_str(&self) -> &str {
         match self {
@@ -108,40 +99,24 @@ impl Platform {
 }
 
 /// `APIProviders` as defined in the documentation.
-#[derive(Clone, Debug, Deserialize, Eq, Hash, PartialEq)]
+#[derive(Clone, Debug, EnumIter, Eq, Hash, PartialEq)]
 pub enum APIProvider {
-    #[serde(rename = "spotify")]
     Spotify,
-    #[serde(rename = "itunes")]
     #[allow(non_camel_case_types)]
     iTunes,
-    #[serde(rename = "youtube")]
     YouTube,
-    #[serde(rename = "google")]
     Google,
-    #[serde(rename = "pandora")]
     Pandora,
-    #[serde(rename = "deezer")]
     Deezer,
-    #[serde(rename = "tidal")]
     Tidal,
-    #[serde(rename = "amazon")]
     Amazon,
-    #[serde(rename = "soundcloud")]
     SoundCloud,
-    #[serde(rename = "napster")]
     Napster,
-    #[serde(rename = "yandex")]
     Yandex,
-    #[serde(rename = "spinrilla")]
     Spinrilla,
-    #[serde(rename = "audius")]
     Audius,
-    #[serde(rename = "anghami")]
     Anghami,
-    #[serde(rename = "boomplay")]
     Boomplay,
-    #[serde(rename = "audiomack")]
     Audiomack,
 }
 
@@ -168,6 +143,16 @@ impl FromStr for APIProvider {
             "audiomack" => Ok(Self::Audiomack),
             _ => Err(Self::Err::UnknownAPIProvider(value.to_string())),
         }
+    }
+}
+
+impl<'de> Deserialize<'de> for APIProvider {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Self::from_str(&s).map_err(|err| de::Error::custom(err.to_string()))
     }
 }
 
