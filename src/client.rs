@@ -1,15 +1,6 @@
-use std::sync::{Arc, Mutex};
-
 use crate::{
     EntityType, LinksAPIResult, OdesliError, Platform, API_VERSION, BASE_URL, LINKS_ENDPOINT,
 };
-
-#[derive(Clone)]
-struct InnerClient {
-    api_key: Option<String>,
-    api_url: String,
-    http_client: reqwest::Client,
-}
 
 /// Helper to build a client for Odesli. You can modify things like the `api_key`,
 /// `api_version` and the inner `http_client` using the builder.
@@ -43,11 +34,9 @@ impl ClientBuilder {
     /// Build and return the [`crate::OdesliClient`] with the configuration set.
     pub fn build(self) -> OdesliClient {
         OdesliClient {
-            inner: Arc::new(Mutex::new(InnerClient {
-                api_key: self.api_key,
-                api_url: format!("{}/{}", BASE_URL, self.api_version),
-                http_client: self.http_client,
-            })),
+            api_key: self.api_key,
+            api_url: format!("{}/{}", BASE_URL, self.api_version),
+            http_client: self.http_client,
         }
     }
 }
@@ -64,23 +53,20 @@ impl Default for ClientBuilder {
 
 #[derive(Clone)]
 pub struct OdesliClient {
-    inner: Arc<Mutex<InnerClient>>,
+    api_key: Option<String>,
+    api_url: String,
+    http_client: reqwest::Client,
 }
 
 impl OdesliClient {
     async fn get(&self, mut params: Vec<(&str, &str)>) -> Result<LinksAPIResult, OdesliError> {
-        let inner = self
-            .inner
-            .lock()
-            .expect("failed to lock inner client Mutex");
-
-        if let Some(key) = inner.api_key.as_ref() {
+        if let Some(key) = self.api_key.as_ref() {
             params.push(("key", key.as_str()));
         }
 
-        let api_endpoint = format!("{}/{}", inner.api_url, LINKS_ENDPOINT);
+        let api_endpoint = format!("{}/{}", self.api_url, LINKS_ENDPOINT);
 
-        match inner
+        match self
             .http_client
             .get(api_endpoint)
             .query(params.as_slice())

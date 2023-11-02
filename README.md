@@ -50,7 +50,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     println!("");
 
-    let client = ClientBuilder::default().build();
+    let client = ClientBuilder::default()
+        // .with_api_key(String::from("<INSERT_YOUR_API_KEY_HERE>")) // OPTIONAL
+        // .with_api_version(String::from(odesli_rs::API_VERSION)) // Will be useful if any new API versions are released
+        // .with_http_client(reqwest::Client::default()) // If you want to change your `reqwest::Client`'s settings
+        .build();
 
     dbg!(
         client
