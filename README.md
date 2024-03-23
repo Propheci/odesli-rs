@@ -58,7 +58,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     dbg!(
         client
-            .get_by_url("https://music.youtube.com/watch?v=cnnOwLfAxn0&si=3MtMRBN3Zy4FFNxU")
+            .get_by_url("https://music.youtube.com/watch?v=cnnOwLfAxn0")
             .await
     );
 
