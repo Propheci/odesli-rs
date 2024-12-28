@@ -2,7 +2,6 @@ use std::str::FromStr;
 
 use crate::OdesliError;
 
-use clap::builder::PossibleValue;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Eq, Serialize, PartialEq)]
@@ -32,7 +31,7 @@ impl clap::ValueEnum for EntityType {
     }
 
     fn to_possible_value(&self) -> Option<clap::builder::PossibleValue> {
-        Some(PossibleValue::new(self.as_str()))
+        Some(clap::builder::PossibleValue::new(self.as_str()))
     }
 }
 

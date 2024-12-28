@@ -2,7 +2,6 @@ use std::str::FromStr;
 
 use crate::OdesliError;
 
-use clap::builder::PossibleValue;
 use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use strum::EnumIter;
 
@@ -100,7 +99,7 @@ impl clap::ValueEnum for Platform {
     }
 
     fn to_possible_value(&self) -> Option<clap::builder::PossibleValue> {
-        Some(PossibleValue::new(self.as_str()))
+        Some(clap::builder::PossibleValue::new(self.as_str()))
     }
 }
 
