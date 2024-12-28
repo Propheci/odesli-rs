@@ -2,9 +2,10 @@ use std::str::FromStr;
 
 use crate::OdesliError;
 
-use serde::Deserialize;
+use clap::builder::PossibleValue;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Eq, Serialize, PartialEq)]
 pub enum EntityType {
     #[serde(rename = "album")]
     Album,
@@ -24,8 +25,19 @@ impl FromStr for EntityType {
     }
 }
 
+#[cfg(feature = "clap")]
+impl clap::ValueEnum for EntityType {
+    fn value_variants<'a>() -> &'a [Self] {
+        &[Self::Song, Self::Album]
+    }
+
+    fn to_possible_value(&self) -> Option<clap::builder::PossibleValue> {
+        Some(PossibleValue::new(self.as_str()))
+    }
+}
+
 impl EntityType {
-    pub fn as_str(&self) -> &str {
+    pub fn as_str(&self) -> &'static str {
         match self {
             EntityType::Album => "album",
             EntityType::Song => "song",

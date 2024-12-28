@@ -12,6 +12,7 @@
 [UNOFFICIAL] Async Rust library to communicate with Odesli API
 
 - Supports getting by URLs and IDs
+- Has a CLI tool for the same: [Tools's README](./bin/README.md)
 
 ## Example
 
@@ -26,7 +27,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-odesli-rs = "5.0.0"
+odesli-rs = "5.1.0"
 strum = "0.25.0"
 tokio = { version = "1.33.0", features = ["full"] }
 ```

@@ -2,7 +2,8 @@ use std::str::FromStr;
 
 use crate::OdesliError;
 
-use serde::{de, Deserialize, Deserializer};
+use clap::builder::PossibleValue;
+use serde::{de, Deserialize, Deserializer, Serialize, Serializer};
 use strum::EnumIter;
 
 #[derive(Clone, Debug, EnumIter, Eq, Hash, PartialEq)]
@@ -71,8 +72,40 @@ impl<'de> Deserialize<'de> for Platform {
     }
 }
 
+#[cfg(feature = "clap")]
+impl clap::ValueEnum for Platform {
+    fn value_variants<'a>() -> &'a [Self] {
+        &[
+            Self::Spotify,
+            Self::iTunes,
+            Self::AppleMusic,
+            Self::YouTube,
+            Self::YouTubeMusic,
+            Self::Google,
+            Self::GoogleStore,
+            Self::Pandora,
+            Self::Deezer,
+            Self::Tidal,
+            Self::AmazonStore,
+            Self::AmazonMusic,
+            Self::SoundCloud,
+            Self::Napster,
+            Self::Yandex,
+            Self::Spinrilla,
+            Self::Audius,
+            Self::Anghami,
+            Self::Boomplay,
+            Self::Audiomack,
+        ]
+    }
+
+    fn to_possible_value(&self) -> Option<clap::builder::PossibleValue> {
+        Some(PossibleValue::new(self.as_str()))
+    }
+}
+
 impl Platform {
-    pub fn as_str(&self) -> &str {
+    pub fn as_str(&self) -> &'static str {
         match self {
             Self::Spotify => "spotify",
             Self::iTunes => "itunes",
@@ -95,6 +128,15 @@ impl Platform {
             Self::Boomplay => "boomplay",
             Self::Audiomack => "audiomack",
         }
+    }
+}
+
+impl Serialize for Platform {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(self.as_str())
     }
 }
 
@@ -157,7 +199,7 @@ impl<'de> Deserialize<'de> for APIProvider {
 }
 
 impl APIProvider {
-    pub fn as_str(&self) -> &str {
+    pub fn as_str(&self) -> &'static str {
         match self {
             Self::Spotify => "spotify",
             Self::iTunes => "itunes",
@@ -176,5 +218,14 @@ impl APIProvider {
             Self::Boomplay => "boomplay",
             Self::Audiomack => "audiomack",
         }
+    }
+}
+
+impl Serialize for APIProvider {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        serializer.serialize_str(self.as_str())
     }
 }

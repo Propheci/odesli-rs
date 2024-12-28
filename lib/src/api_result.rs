@@ -2,9 +2,9 @@ use std::collections::HashMap;
 
 use crate::{APIProvider, EntityType, Platform};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Link {
     /// The unique ID for this entity. Use it to look up data about this entity
     /// at `entities_by_unique_id[entity_unique_id]`
@@ -26,7 +26,7 @@ pub struct Link {
     pub native_app_uri_desktop: Option<String>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Entity {
     /// This is the unique identifier on the streaming platform/API provider
     #[serde(rename = "id")]
@@ -64,7 +64,7 @@ pub struct Entity {
     pub platforms: Vec<Platform>,
 }
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 /// This is the response structure returned by Odesli for its `links` endpoint.
 pub struct LinksAPIResult {
     /// The unique ID for the input entity that was supplied in the request.
@@ -105,8 +105,7 @@ impl LinksAPIResult {
 
     pub fn get_platform_entity(&self, platform: &Platform) -> Option<&Entity> {
         if let Some(platform_link) = self.get_platform_url(platform).as_ref() {
-            self.entities_by_unique_id
-                .get(&platform_link.entity_unique_id)
+            self.entities_by_unique_id.get(&platform_link.entity_unique_id)
         } else {
             None
         }
