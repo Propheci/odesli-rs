@@ -5,7 +5,7 @@ use clap::{Arg, ArgAction, Command};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let mut cmd = Command::new("odesli")
+    let mut command = Command::new("odesli")
         .about("interact with Odesli API using CLI")
         .version("0.1.0")
         .subcommand_required(true)
@@ -30,10 +30,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         );
 
     for subcommand in crate::subcommands::SUBCOMMANDS.iter() {
-        cmd = cmd.subcommand(subcommand.get_subcommand())
+        command = command.subcommand(subcommand.get_subcommand())
     }
 
-    let global_matches = cmd.get_matches();
+    let global_matches = command.clone().get_matches();
 
     let api_key = if global_matches.contains_id("api-key") {
         Some(global_matches.get_one::<String>("api-key").expect("contains_id").to_string())
@@ -46,7 +46,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Some((cmd, cmd_matches)) => {
             for subcommand in subcommands::SUBCOMMANDS.iter() {
                 if cmd.eq(subcommand.name()) {
-                    subcommand.handle_subcommand(cmd_matches, api_key, dump_json).await?;
+                    subcommand
+                        .handle_subcommand(&mut command, cmd_matches, api_key, dump_json)
+                        .await?;
                     return Ok(());
                 }
             }

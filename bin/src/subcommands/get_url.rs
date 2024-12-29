@@ -24,6 +24,7 @@ impl OdesliSubcommand for GetUrlSubcommand {
 
     async fn handle_subcommand(
         &self,
+        _final_cmd: &mut Command,
         cmd_matches: &ArgMatches,
         api_key: Option<String>,
         dump_json: bool,

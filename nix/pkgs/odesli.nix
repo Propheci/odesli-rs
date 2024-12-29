@@ -18,6 +18,10 @@
       ../../lib
     ];
   };
+
+  packageDescription = builtins.fromTOML (
+    builtins.readFile ../../bin/Cargo.toml
+  );
 in
   (makeRustPlatform {
     cargo = toolchain;
@@ -26,7 +30,7 @@ in
   .buildRustPackage
   {
     name = pkgName;
-    version = "0.1.0";
+    version = packageDescription.package.version;
 
     nativeBuildInputs = [pkg-config];
     buildInputs = [openssl.dev];
@@ -38,7 +42,7 @@ in
 
     meta = with lib; {
       description = "Nix package for ${pkgName}";
-      homepage = "Add link here";
+      homepage = "https://github.com/Propheci/odesli-rs";
       license = licenses.mit;
       mainProgram = pkgName;
     };

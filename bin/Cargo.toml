@@ -1,6 +1,6 @@
 [package]
 name = "odesli"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Akshett Rai Jindal"]
 license = "MIT"
@@ -12,6 +12,7 @@ keywords = ["odesli", "music"]
 [dependencies]
 async-trait = "0.1.83"
 clap = { version = "4.5.23", features = ["derive"] }
+clap_complete = "4.5.40"
 lazy_static = "1.5.0"
 odesli-rs = { path = "../lib", features = ["clap"] }
 serde = { version = "1.0.189", features = ["derive"] }

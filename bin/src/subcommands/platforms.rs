@@ -18,6 +18,7 @@ impl OdesliSubcommand for PlatformsSubcommand {
 
     async fn handle_subcommand(
         &self,
+        _final_cmd: &mut Command,
         _cmd_matches: &ArgMatches,
         _api_key: Option<String>,
         _dump_json: bool,
