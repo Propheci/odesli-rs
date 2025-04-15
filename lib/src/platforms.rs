@@ -29,6 +29,7 @@ pub enum Platform {
     Anghami,
     Boomplay,
     Audiomack,
+    Bandcamp,
 }
 
 impl FromStr for Platform {
@@ -56,6 +57,7 @@ impl FromStr for Platform {
             "anghami" => Ok(Self::Anghami),
             "boomplay" => Ok(Self::Boomplay),
             "audiomack" => Ok(Self::Audiomack),
+            "bandcamp" => Ok(Self::Bandcamp),
             _ => Err(Self::Err::UnknownPlatform(value.to_string())),
         }
     }
@@ -95,6 +97,7 @@ impl clap::ValueEnum for Platform {
             Self::Anghami,
             Self::Boomplay,
             Self::Audiomack,
+            Self::Bandcamp,
         ]
     }
 
@@ -126,6 +129,7 @@ impl Platform {
             Self::Anghami => "anghami",
             Self::Boomplay => "boomplay",
             Self::Audiomack => "audiomack",
+            Self::Bandcamp => "bandcamp",
         }
     }
 }
@@ -159,6 +163,7 @@ pub enum APIProvider {
     Anghami,
     Boomplay,
     Audiomack,
+    Bandcamp,
 }
 
 impl FromStr for APIProvider {
@@ -182,6 +187,7 @@ impl FromStr for APIProvider {
             "anghami" => Ok(Self::Anghami),
             "boomplay" => Ok(Self::Boomplay),
             "audiomack" => Ok(Self::Audiomack),
+            "bandcamp" => Ok(Self::Bandcamp),
             _ => Err(Self::Err::UnknownAPIProvider(value.to_string())),
         }
     }
@@ -216,6 +222,7 @@ impl APIProvider {
             Self::Anghami => "anghami",
             Self::Boomplay => "boomplay",
             Self::Audiomack => "audiomack",
+            Self::Bandcamp => "bandcamp",
         }
     }
 }
