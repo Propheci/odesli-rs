@@ -738,7 +738,7 @@ dependencies = [
 
 [[package]]
 name = "odesli"
-version = "0.2.0"
+version = "0.3.1"
 dependencies = [
  "async-trait",
  "clap",
@@ -753,7 +753,7 @@ dependencies = [
 
 [[package]]
 name = "odesli-rs"
-version = "5.1.1"
+version = "5.2.1"
 dependencies = [
  "clap",
  "reqwest",

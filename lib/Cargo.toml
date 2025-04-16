@@ -1,6 +1,6 @@
 [package]
 name = "odesli-rs"
-version = "5.2.0"
+version = "5.2.1"
 edition = "2021"
 authors = ["Akshett Rai Jindal"]
 license = "MIT"
