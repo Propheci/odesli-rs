@@ -12,5 +12,5 @@
 [UNOFFICIAL] Async Rust library to communicate with Odesli API
 
 - Supports getting by URLs and IDs
-- Checkout the docs at: [Library's README](./bin/README.md)
+- Checkout the docs at: [Library's README](./lib/README.md)
 - Has a CLI tool for the same: [Tools's README](./bin/README.md)
